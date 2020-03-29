@@ -1,10 +1,10 @@
-= Chapter 2
+# Chapter 2
 
-== 2.1 Docker CLI
+## 2.1 Docker CLI
 
-Show Docker CLI commands
+### Show Docker CLI commands
 
-== 2.2 Run your first Docker container
+## 2.2 Run your first Docker container
 
 ```
 docker container run -it jboss/wildfly
@@ -18,9 +18,9 @@ docker container rm -f web
 docker container run -it --name web jboss/wildfly bash
 ```
 
-== 2.3 Run Docker container (ports & volumes)
+## 2.3 Run Docker container (ports & volumes)
 
-=== Expose ports
+### Expose ports
 
 ```
 docker container run -d --name web -P jboss/wildfly
@@ -30,7 +30,7 @@ docker container logs web
 
 Access WildFly home page in browser on the exposed port
 
-=== Expose ports
+### Expose ports
 
 ```
 docker container stop web
@@ -42,7 +42,7 @@ docker container logs web
 Access WildFly home page in browser on 8080
 
 
-=== Volume mapping
+### Volume mapping
 
 ```
 docker container rm -f web
@@ -53,7 +53,7 @@ curl http://localhost:8080/webapp/resources/persons
 
 `webapp.war` is used from https://github.com/javaee-samples/javaee7-simple-sample/releases/download/v1.10/javaee7-simple-sample-1.10.war.
 
-=== 2.4 Create first Docker image
+### 2.4 Create first Docker image
 
 . Dockerfile syntax
 . Create a new directory
@@ -73,7 +73,7 @@ CMD echo "Hello world"
 . Explain `--compress`
 . Explain `--squash`
 
-=== 2.5 Create first Java Docker image
+### 2.5 Create first Java Docker image
 
 ```
 FROM openjdk
@@ -96,7 +96,7 @@ CMD java -version
 . List image and show/compare the size: `docker image ls`
 . Run container: `docker container run hellojava:2`
 
-=== 2.6 Copy files in the Docker image
+### 2.6 Copy files in the Docker image
 
 . Explain `COPY` vs `ADD`
 
@@ -110,7 +110,7 @@ COPY webapp.war /opt/jboss/wildfly/standalone/deployments/webapp.war
 . Run container: `docker container run -p 8080:8080 -d helloweb`
 . Access application: `curl http://localhost:8080/webapp/resources/persons`
 
-=== 2.7 Run JAR files from the Docker image
+### 2.7 Run JAR files from the Docker image
 
 ```
 FROM openjdk:jdk-alpine
@@ -129,11 +129,11 @@ CMD java -jar /deployments/myapp-1.0-SNAPSHOT.jar
 . Run new Docker container: `docker container run hellojava:4`
 . Show updated changes
 
-=== 2.8 Other Dockerfile instructions
+### 2.8 Other Dockerfile instructions
 
 Slides only
 
-=== 2.9 Docker and Maven
+### 2.9 Docker and Maven
 
 . Check out https://github.com/arun-gupta/docker-java-sample
 . Run using CLI: `mvn clean package exec:java`
@@ -142,7 +142,7 @@ Slides only
 . Show image: `docker image ls`
 . Run container: `mvn install -Pdocker`
 
-=== 2.10 Docker and Gradle
+### 2.10 Docker and Gradle
 
 . Check out https://github.com/arun-gupta/docker-java-sample
 . Run using CLI: `./gradlew build run`
@@ -152,13 +152,13 @@ Slides only
 . Run container: `./gradlew startContainer`
 
 
-=== 2.11 Tag and Share Docker Image
+### 2.11 Tag and Share Docker Image
 
 . Show tags at https://hub.docker.com/_/openjdk/
 . Docker image name format: `<registry>/repo_name:tag`
 .. Default value of `<registry>` is `docker.io`
 
-==== Dockerfile
+#### Dockerfile
 
 Use Dockerfile:
 
@@ -168,24 +168,24 @@ FROM ubuntu:latest
 CMD echo "This is v1"
 ```
 
-==== Remove all images and containers
+#### Remove all images and containers
 
 . `docker image rm -f $(docker image ls -qa)`
 . `docker container rm -f $(docker container ls -aq)`
 
-==== Image with no name or tag
+#### Image with no name or tag
 
 . Build image: `docker image build .`
 . List image: Use `docker image ls` to show the list of images, particular `<none>:<none>` for this image
 . Run container: `docker container run <image-id>`, have no name
 
-==== Image with no name and default `latest` tag
+#### Image with no name and default `latest` tag
 
 . Build image: `docker image build -t helloworld .`
 . List image: `docker image ls`, show default `<none>:<none>` is gone, `latest` tag is created
 . Run container: `docker container run helloworld` and `docker container run helloworld:latest`
 
-==== Image with name and explicit tag
+#### Image with name and explicit tag
 
 . Remove all containers: `docker container rm -f $(docker container ls -aq)`
 . Remove image with `latest` tag: `docker image rm helloworld:latest`
@@ -194,13 +194,13 @@ CMD echo "This is v1"
 . Run container: `docker container run helloworld:1`
 . Run `latest` container: `docker container run helloworld` and `docker container run helloworld:latest`
 
-==== Tag versioned image with `latest` tag
+#### Tag versioned image with `latest` tag
 
 . Tag image: `docker image tag helloworld:1 helloworld:latest`
 . List images: `docker image ls`, show both tags are available
 . Run `latest` container (now works): `docker container run helloworld` and `docker container run helloworld:latest`
 
-==== Is `latest` really latest?
+#### Is `latest` really latest?
 
 Use Dockerfile:
 
@@ -215,7 +215,7 @@ CMD echo "This is v2"
 . Tag v2 to `latest`: `docker image tag helloworld:2 helloworld:latest`
 . Run container: `docker container run helloworld` shows v2 now
 
-==== Push image to Docker Hub
+#### Push image to Docker Hub
 
 . Push the image without namespace and show the error: `docker image push helloworld:latest`
 . Tag image: `docker image tag helloworld:2 arungupta/helloworld:latest`
